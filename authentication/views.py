@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from .serializers import ProfileSerializer
 from rest_framework import generics, serializers
-
-from .serializers import ChangePasswordSerializer, RegisterSerializer, UserSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+from .models import Profile
+from .serializers import ChangePasswordSerializer, ProfileSerializer, RegisterSerializer, UserSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
@@ -126,3 +127,15 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
     
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
+    
+class ProfileCreateView(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    
+class ProfileDeleteView(generics.DestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
