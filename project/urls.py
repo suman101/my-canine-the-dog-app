@@ -34,7 +34,5 @@ if settings.DEBUG:
         
 
 
-from django.contrib import admin
-
 admin.autodiscover()
 admin.site.enable_nav_sidebar = False
