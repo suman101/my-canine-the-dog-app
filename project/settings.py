@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth',
     'allauth.account',
-    
+    'django.contrib.sites',
     'drf_spectacular',
 ]
 
