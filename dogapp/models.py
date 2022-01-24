@@ -70,7 +70,7 @@ class PetProfile(models.Model):
 class Training(models.Model):
     title = models.CharField(max_length=85)
     description = models.TextField()
-    video = models.FileField(upload_to='videos_uploaded',null=True,
+    video = models.FileField(upload_to='videos_uploaded',null=True,blank=True,
             validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     image = models.ImageField(upload_to = 'images_uploaded/', null = True)
     

@@ -34,5 +34,3 @@ if settings.DEBUG:
         
 
 
-admin.autodiscover()
-admin.site.enable_nav_sidebar = False
