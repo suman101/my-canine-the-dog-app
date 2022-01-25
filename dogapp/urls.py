@@ -4,8 +4,8 @@ from .views import LikeCreateView, LikeDeleteView, MessageCreateView, MessageDel
 urlpatterns = [
     path('post/', PostListView.as_view()),
     path('postcreate/', PostCreateView.as_view()),
-    path('postdetail/', PostDetailView.as_view()),
-    path('postdelete/', PostDeleteView.as_view()),
+    path('postdetail/<int:pk>/', PostDetailView.as_view()),
+    path('postdelete/<int:pk>/', PostDeleteView.as_view()),
     
     path('comment/', CommentListView.as_view()),
     path('commentcreate/', CommentCreateView.as_view()),
