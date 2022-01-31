@@ -4,8 +4,8 @@ from .views import RegisterApi, LogoutView,  ChangePasswordView, RequestPassword
 
 
 urlpatterns = [
-    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     
     path('api/register/', RegisterApi.as_view()),
     path('api/logout/', LogoutView.as_view(), name='auth_logout'),
