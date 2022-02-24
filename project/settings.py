@@ -87,8 +87,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-SITE_ID=1 
+SITE_ID=1
 
+LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -156,3 +157,22 @@ AUTHENTICATION_BACKENDS = (
    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+
+
+## client id
+#785965256965-cjbfd6eft4lslbmk2ddu08huoj29npa0.apps.googleusercontent.com
+
+##client secret
+#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
