@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
-    'drf_spectacular',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
