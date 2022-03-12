@@ -136,6 +136,16 @@ class GoogleLogin(SocialLoginView):
 class ProfileCreateView(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def post(self, request, *args, **kwargs):
+
+      profile_serializer = ProfileSerializer(data=request.data)
+
+      if profile_serializer.is_valid():
+          profile_serializer.save()
+          return Response(profile_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
