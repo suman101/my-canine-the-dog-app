@@ -8,7 +8,7 @@ from django.urls import reverse
 # Create your models here.
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     contact = models.CharField(max_length=50, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     profile_pic = models.ImageField(upload_to = 'images', default= 'default.png',null=True,blank=True)
