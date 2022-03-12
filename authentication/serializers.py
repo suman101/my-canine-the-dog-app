@@ -109,6 +109,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
         return super().validate(attrs)
     
 class UserProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = UserProfile
-        fields = ['id','contact', 'address', 'profile_pic','is_online']
+        fields = ['id','user','contact', 'address', 'profile_pic','is_online']

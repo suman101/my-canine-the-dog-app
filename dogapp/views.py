@@ -4,13 +4,18 @@ from rest_framework import generics
 from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction
 from rest_framework.response import Response
 from rest_framework import status
-
+from .paginations import PageNumberPagination
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 # Create your views here.
 class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PageNumberPagination
+    filter_backends = [SearchFilter,OrderingFilter]
+    search_fields = ['user__username',]
+    ordering_fields = ['created',]
     
 class PostCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
@@ -29,10 +34,12 @@ class PostCreateView(generics.ListCreateAPIView):
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    lookup_field = 'pk'
     
 class PostDeleteView(generics.DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    lookup_field = 'pk'
     
 class CommentListView(generics.ListAPIView):
     queryset = Comment.objects.all()
@@ -45,10 +52,12 @@ class CommentCreateView(generics.ListCreateAPIView):
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    lookup_field = 'pk'
     
 class CommentDeleteView(generics.DestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    lookup_field = 'pk'
     
 class LikeCreateView(generics.CreateAPIView):
     queryset = Like.objects.all()
@@ -61,6 +70,7 @@ class LikeDeleteView(generics.DestroyAPIView):
 class MessageListView(generics.ListAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    pagination_class = PageNumberPagination
     
 class MessageCreateView(generics.CreateAPIView):
     queryset = Message.objects.all()
@@ -79,14 +89,17 @@ class MessageCreateView(generics.CreateAPIView):
 class MessageDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    lookup_field = 'pk'
     
 class MessageDeleteView(generics.DestroyAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+    lookup_field = 'pk'
     
 class BreedListView(generics.ListAPIView):
     queryset = Breed.objects.all()
     serializer_class = BreedSerializer
+    pagination_class = PageNumberPagination
     
 class BreedCreateView(generics.CreateAPIView):
     queryset = Breed.objects.all()
@@ -105,14 +118,17 @@ class BreedCreateView(generics.CreateAPIView):
 class BreedDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Breed.objects.all()
     serializer_class = BreedSerializer
+    lookup_field = 'pk'
     
 class BreedDeleteView(generics.DestroyAPIView):
     queryset = Breed.objects.all()
     serializer_class = BreedSerializer
+    lookup_field = 'pk'
     
 class PetProfileListView(generics.ListAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
+    pagination_class = PageNumberPagination
     
 class PetProfileCreateView(generics.CreateAPIView):
     queryset = PetProfile.objects.all()
@@ -121,14 +137,17 @@ class PetProfileCreateView(generics.CreateAPIView):
 class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
+    lookup_field = 'pk'
     
 class PetProfileDeleteView(generics.DestroyAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
+    lookup_field = 'pk'
     
 class TrainingListView(generics.ListAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingSerializer
+    pagination_class = PageNumberPagination
     
 class TrainingCreateView(generics.CreateAPIView):
     queryset = Training.objects.all()
@@ -147,14 +166,17 @@ class TrainingCreateView(generics.CreateAPIView):
 class TrainingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingSerializer
+    lookup_field = 'pk'
     
 class TrainingDeleteView(generics.DestroyAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingSerializer
+    lookup_field = 'pk'
     
 class TransactionListView(generics.ListAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+    pagination_class = PageNumberPagination
     
 class TransactionCreateView(generics.CreateAPIView):
     queryset = Transaction.objects.all()
@@ -174,10 +196,12 @@ class TransactionCreateView(generics.CreateAPIView):
 class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+    lookup_field = 'pk'
     
 class TransactionDeleteView(generics.DestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+    lookup_field = 'pk'
     
     
     

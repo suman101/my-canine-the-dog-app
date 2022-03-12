@@ -4,7 +4,7 @@ from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, T
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['caption','image']
+        fields = ['user','caption','image']
         
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

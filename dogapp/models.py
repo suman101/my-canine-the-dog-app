@@ -6,6 +6,7 @@ User = get_user_model()
 # Create your models here.
 
 class Post(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_post',null=True,blank=True)
     caption = models.TextField()
     image = models.ImageField(upload_to = 'images/')
     created = models.DateTimeField(auto_now_add=True)
