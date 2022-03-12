@@ -1,14 +1,13 @@
 from django.shortcuts import render
-from .serializers import ProfileSerializer
+from .serializers import UserSerializer
 from rest_framework import generics, serializers
-from .models import Profile
-from .serializers import ChangePasswordSerializer, ProfileSerializer, RegisterSerializer, UserSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+from .models import UserProfile
+from .serializers import ChangePasswordSerializer, RegisterSerializer, UserProfileSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth.models import User
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
@@ -23,6 +22,7 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
+from .models import User
 
 # Create your views here.
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -132,25 +132,24 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
     
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    
-class ProfileCreateView(generics.ListCreateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
 
-    def post(self, request, *args, **kwargs):
 
-      profile_serializer = ProfileSerializer(data=request.data)
+class UserListView(generics.ListAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
-      if profile_serializer.is_valid():
-          profile_serializer.save()
-          return Response(profile_serializer.data, status=status.HTTP_201_CREATED)
-      else:
-          return Response(profile_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    
-class ProfileDeleteView(generics.DestroyAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+
+class UserDetailView(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = "pk"
+
+class UserUpdateView(generics.UpdateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = "pk"
+
+class UserDeleteView(generics.DestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = "pk"

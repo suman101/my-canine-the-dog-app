@@ -1,6 +1,6 @@
-from .models import Profile
+from .models import UserProfile
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from .models import User
 from django.contrib.auth.password_validation import validate_password
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
@@ -34,8 +34,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 class UserSerializer(serializers.ModelSerializer):
-    model = User
-    fields = '__all__'
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+            'email'
+        )
     
 class ChangePasswordSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -103,7 +108,7 @@ class SetNewPasswordSerializer(serializers.Serializer):
             raise AuthenticationFailed('The reset link is invalid', 401)
         return super().validate(attrs)
     
-class ProfileSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = ['contact', 'address', 'profile_pic',]
+        model = UserProfile
+        fields = ['id','contact', 'address', 'profile_pic','is_online']

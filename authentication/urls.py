@@ -1,7 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
-from .views import RegisterApi, LogoutView,  ChangePasswordView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView, GoogleLogin, ProfileCreateView, ProfileDetailView, ProfileDeleteView
-
+from .views import RegisterApi, LogoutView,  ChangePasswordView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView, GoogleLogin, UserListView, UserDetailView, UserUpdateView, UserDeleteView
 
 urlpatterns = [
     path('api/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -20,7 +19,8 @@ urlpatterns = [
     
     path('rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
     
-    path('profile/', ProfileCreateView.as_view()),
-    path('profile-detail/<int:pk>/', ProfileDetailView.as_view()),
-    path('profile-delete<int:pk>/', ProfileDeleteView.as_view()),
+    path('user-list/', UserListView.as_view()),
+    path('user-detail/<int:pk>/', UserDetailView.as_view()),
+    path('user-update<int:pk>/', UserUpdateView.as_view()),
+    path('user-delete<int:pk>/', UserDeleteView.as_view()),
 ]
