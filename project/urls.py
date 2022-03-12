@@ -27,7 +27,7 @@ schema_view = get_schema_view(
    openapi.Info(
       title="API Doc",
       default_version='v1',
-      description="School Managemet System",
+      description="My Canine: The Dog App",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@abc.local"),
       license=openapi.License(name="BSD License"),
