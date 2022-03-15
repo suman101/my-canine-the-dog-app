@@ -4,7 +4,7 @@ from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, T
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['user','caption','image']
+        fields = ['id','user','caption','image']
         
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,12 +30,12 @@ class BreedSerializer(serializers.ModelSerializer):
 class PetProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = PetProfile
-        fields = ['name','address','breed','date_of_birth']
+        fields = ['id','name','address','breed','date_of_birth']
         
 class TrainingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Training
-        fields = ['title','description','image','video']
+        fields = ['id','title','description','image','video']
         
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:

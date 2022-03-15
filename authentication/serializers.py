@@ -7,23 +7,68 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from django.contrib.auth import authenticate
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-
+    '''
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims
+
         token['username'] = user.username
         return token
+    '''
+
+    """
+    For login user
+    """
+    default_error_messages = {
+        'no_active_account': 'Username or Password does not matched.'
+    }
+
+    @classmethod
+    def get_token(cls,user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        obj=User.objects.get(id=user.id)
+        token['user'] = user.username
+        token['email'] = obj.email
+        
+        if user is None:
+            raise serializers.ValidationError("User is not registered")
+        return token
+
+    def validate(self, attrs):
+        #email = attrs.get('email')
+        username = attrs.get('username')
+        password = attrs.get('password')
+        try:
+            us = User.objects.get(email__iexact=attrs.get("username"))
+            username = us.username
+        except Exception as e:
+            pass
+
+        user = authenticate(username=username, password=password)
+        if not user:
+            raise AuthenticationFailed('Invalid Crendential, Try again')
+        refresh = self.get_token(user)
+        refresh_token = str(refresh)
+        access_token = str(refresh.access_token)
+
+        return {
+            'access': access_token,
+            'refresh': refresh_token,
+        }
+
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username','password','email','first_name','last_name']
+        fields = ['id','username','password','email','first_name','last_name']
         
         extra_kwargs = {
             'password': {'write_only':True},
