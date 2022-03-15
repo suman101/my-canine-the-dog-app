@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from PIL import Image
 from django.core.mail import send_mail 
@@ -18,13 +19,13 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
-    contact = models.CharField(max_length=50, null=True, blank=True)
+    contact = models.CharField(max_length=50,null=True,blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
-    profile_pic = models.ImageField(upload_to = 'images', default= 'default.png',null=True,blank=True)
+    profile_pic = models.ImageField(upload_to = 'images/',default='images/avatar.png/',null=True,blank=True)
     is_online = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.user
+        return self.user.username
     
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
@@ -51,5 +52,14 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # to:
         [reset_password_token.user.email]
     )
+
+
+class LoggedInUser(models.Model):
+    user=models.OneToOneField(User,related_name='logged_in_user', on_delete=models.CASCADE)
+    session_key=models.CharField(max_length=32, blank=True,null=True)
+
+
+    def __str__(self):
+        return self.user.username
 
 

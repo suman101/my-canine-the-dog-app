@@ -13,5 +13,16 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 
+
 # TO CHECK ONLINE AND OFF-LINE STATUS OF USERS
 
+# TO CHECK ONLINE AND OFF LINE STATUS OF USERS
+@receiver(user_logged_in)
+def got_online(sender, user, request, **kwargs):    
+    user.profile.is_online = True
+    user.profile.save()
+
+@receiver(user_logged_out)
+def got_offline(sender, user, request, **kwargs):   
+    user.profile.is_online = False
+    user.profile.save()
