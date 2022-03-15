@@ -14,7 +14,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 
-# TO CHECK ONLINE AND OFF-LINE STATUS OF USERS
+
 
 # TO CHECK ONLINE AND OFF LINE STATUS OF USERS
 @receiver(user_logged_in)
