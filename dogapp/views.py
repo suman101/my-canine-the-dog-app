@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .paginations import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -16,10 +17,13 @@ class PostListView(generics.ListAPIView):
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['user__username',]
     ordering_fields = ['created',]
+    permission_classes = [IsAuthenticated]
     
 class PostCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
     
     def post(self, request, *args, **kwargs):
 
@@ -34,11 +38,13 @@ class PostCreateView(generics.ListCreateAPIView):
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
     
 class PostDeleteView(generics.DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
     
 class CommentListView(generics.ListAPIView):
