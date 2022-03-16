@@ -126,7 +126,7 @@ class PasswordResetView(generics.GenericAPIView):
             uid64 = urlsafe_base64_encode(smart_bytes(u.id))
             token = PasswordResetTokenGenerator().make_token(u)
             # current_site = get_current_site(request= request).domain
-            current_site = settings.FRONTEND_URL
+            current_site ='https://my-canine.herokuapp.com'
             relative_link = reverse('password_token_check', kwargs={'uidb64': uid64, 'token':token})
             absurl = current_site + relative_link
             email_body = 'Hi there '+u.username+  '\n Use this link to reset your password and try not to forget another time: \n'+ absurl
