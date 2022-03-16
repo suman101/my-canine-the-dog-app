@@ -55,7 +55,7 @@ class RegisterApi(generics.GenericAPIView):
         user_data = serializer.data
         user = User.objects.get(email = user_data['email'])
         token = RefreshToken.for_user(user).access_token
-        current_site ='https://my-canine.herokuapp.com/'
+        current_site ='https://my-canine.herokuapp.com'
         relative_link = reverse('verify_email')
         absurl = current_site + relative_link+"?token="+str(token)
         email_body = 'Hi there '+user.username+' Use this link to verify your email: \n'+ absurl
@@ -67,7 +67,7 @@ class RegisterApi(generics.GenericAPIView):
         }
         Util.send_mail_register(data)
         response = {
-                    'success': 'sms has been sent successfully',
+                    'success': 'link has been sent successfully',
                     'user': user_data,
                     # 'token': str(token)
                 }
@@ -81,6 +81,7 @@ class VerifyEmail(APIView):
         try:
             payload = jwt.decode(token,key= settings.SECRET_KEY, algorithms=['HS256'])
             user = User.objects.get(id=payload['user_id'])
+            print(user)
             if not user.is_email_verified:
                 user.is_email_verified = True
                 user.save()
