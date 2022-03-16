@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .serializers import UserSerializer
 from rest_framework import generics, serializers
 from .models import UserProfile
-from .serializers import ChangePasswordSerializer, RegisterSerializer, UserProfileSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+from .serializers import ChangePasswordSerializer, RegisterSerializer, UserProfileSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer,EmailVerificationSerializers
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
@@ -72,6 +72,24 @@ class RegisterApi(generics.GenericAPIView):
                     # 'token': str(token)
                 }
         return Response(response, status=status.HTTP_201_CREATED)
+
+class VerifyEmail(APIView):
+    serializer_class = EmailVerificationSerializers
+
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token,key= settings.SECRET_KEY, algorithms=['HS256'])
+            user = User.objects.get(id=payload['user_id'])
+            if not user.is_email_verified:
+                user.is_email_verified = True
+                user.save()
+            return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as identifer:
+            return Response({'error': 'Activation Expire'}, status = status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifer:
+            print(identifer)
+            return Response({'error': 'Invalid Token'}, status = status.HTTP_400_BAD_REQUEST)
         
 class LogoutView(APIView):
     permission_classes = (AllowAny,)
