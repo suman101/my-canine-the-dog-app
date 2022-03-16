@@ -33,6 +33,7 @@ class MyObtainTokenPairView(TokenObtainPairView):
 
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+    permission_classes = (AllowAny, )
 
     '''
     def post(self,request,*args, **kwargs):
