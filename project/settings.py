@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'drf_yasg',
     'rest_framework_swagger',
+    'sitesettings',
 ]
 
 MIDDLEWARE = [

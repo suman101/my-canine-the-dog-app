@@ -1,20 +1,20 @@
 from django.core.mail import EmailMessage
-import threading
+from sitesettings.models import SMTPSetting
+from django.core.mail.backends.smtp import EmailBackend
 
-
-class EmailThread(threading.Thread):
-
-    def __init__(self, email):
-        self.email = email
-        threading.Thread.__init__(self)
-
-    def run(self):
-        self.email.send()
 
 
 class Util:
+
     @staticmethod
-    def send_email(data):
-        email = EmailMessage(
-            subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
-        EmailThread(email).start()
+    def send_mail_register(data):
+        smtpsetting = SMTPSetting.objects.last()
+        backend = EmailBackend(port=smtpsetting.email_port,
+                               host=smtpsetting.email_host,
+                               username=smtpsetting.email_host_user,
+                               password=smtpsetting.email_host_password,
+                               fail_silently=False
+                               )
+
+        email = EmailMessage(subject= data['email_subject'], body=data['email_body'], from_email= smtpsetting.email_host_user,to=[data['email_receiver']], connection=backend)
+        email.send()

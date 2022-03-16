@@ -23,6 +23,7 @@ from rest_auth.registration.views import SocialLoginView
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
 from .models import User
+from django.conf import settings
 
 # Create your views here.
 class MyObtainTokenPairView(TokenObtainPairView):
@@ -32,7 +33,8 @@ class MyObtainTokenPairView(TokenObtainPairView):
 
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
-    
+
+    '''
     def post(self,request,*args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -41,6 +43,34 @@ class RegisterApi(generics.GenericAPIView):
             "user": serializer.data,
             "message": "User Created Successfully. Now Perform Login to get your token",
         })
+
+    '''
+
+    def post(self, request):
+        user = request.data
+        serializer = self.serializer_class(data=user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        user_data = serializer.data
+        user = User.objects.get(email = user_data['email'])
+        token = RefreshToken.for_user(user).access_token
+        current_site = settings.FRONTEND_URL
+        relative_link = reverse('verify_email')
+        absurl = current_site + relative_link+"?token="+str(token)
+        email_body = 'Hi there '+user.username+' Use this link to verify your email: \n'+ absurl
+        data = {
+            'email_subject': 'Email Confirmation',
+            'email_body': email_body,
+            'email_receiver': user.email,
+            'email_user': user.username,
+        }
+        Util.send_mail_register(data)
+        response = {
+                    'success': 'sms has been sent successfully',
+                    'user': user_data,
+                    # 'token': str(token)
+                }
+        return Response(response, status=status.HTTP_201_CREATED)
         
 class LogoutView(APIView):
     permission_classes = (AllowAny,)
