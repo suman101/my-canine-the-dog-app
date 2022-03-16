@@ -55,7 +55,7 @@ class RegisterApi(generics.GenericAPIView):
         user_data = serializer.data
         user = User.objects.get(email = user_data['email'])
         token = RefreshToken.for_user(user).access_token
-        current_site = settings.FRONTEND_URL
+        current_site ='https://my-canine.herokuapp.com/'
         relative_link = reverse('verify_email')
         absurl = current_site + relative_link+"?token="+str(token)
         email_body = 'Hi there '+user.username+' Use this link to verify your email: \n'+ absurl
