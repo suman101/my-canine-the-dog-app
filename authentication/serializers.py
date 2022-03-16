@@ -66,17 +66,28 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=68, min_length=8, write_only=True)
+    confirm_password = serializers.CharField(max_length=68, min_length=6, write_only=True)
+
     class Meta:
         model = User
-        fields = ['id','username','password','email','first_name','last_name']
-        
-        extra_kwargs = {
-            'password': {'write_only':True},
-        }
-        
+        fields = [ 'email', 'username', 'password' , 'confirm_password']
+
+    def validate(self, attrs):
+        email = attrs.get('email', '')
+        username = attrs.get('username', '')
+        password = attrs.get('password')
+        confirm_password = attrs.pop('confirm_password')
+        if password != confirm_password:
+            raise serializers.ValidationError('passwords should be same')
+        if not username.isalnum():
+            raise serializers.ValidationError({'username': 'The username should only contain only alphanumeric value'})
+        return attrs
+
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], password=validated_data['password'], first_name=validated_data['first_name'], last_name=validated_data['last_name'],email=validated_data['email'])
-        return user
+        return User.objects.create_user(**validated_data)
+
+    
 
 class EmailVerificationSerializers(serializers.ModelSerializer):
     tokens = serializers.CharField(max_length=555, help_text="Enter same email as you have provided during regristrations")
