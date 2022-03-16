@@ -18,3 +18,15 @@ class SMTPSetting(models.Model):
     
     def delete(self):
         raise exceptions.PermissionDenied('delete action not allowed')
+
+class ContactUs(models.Model):
+    name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=15)
+    message = models.TextField()
+    email = models.EmailField(max_length=50)
+    country = models.CharField(max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
