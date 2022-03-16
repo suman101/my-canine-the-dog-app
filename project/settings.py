@@ -65,6 +65,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+CORS_ALLOW_ALL_ORIGINS=True
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 REST_FRAMEWORK = {
@@ -191,3 +194,10 @@ SOCIALACCOUNT_PROVIDERS = {
 
 ##client secret
 #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
+
+SIMPLE_JWT = {
+     # Use JWT 
+     'AUTH_HEADER_TYPES': ('JWT',),
+     # 'AUTH_HEADER_TYPES': ('Bearer',),
+     
+}
