@@ -1,11 +1,20 @@
 from rest_framework import serializers
 from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, Transaction
 
+
+class PostListSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+
+    class Meta:
+        model = Post
+        fields = ['id','caption','image','user']
+
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id','user','caption','image']
+        fields = ['id','caption','image','user']
         
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

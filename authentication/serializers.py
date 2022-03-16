@@ -97,6 +97,7 @@ class EmailVerificationSerializers(serializers.ModelSerializer):
         fields = ['tokens']
     
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = (

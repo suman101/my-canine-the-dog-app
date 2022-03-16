@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer
+from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer
 from rest_framework import generics
 from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction
 from rest_framework.response import Response
@@ -12,28 +12,58 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = PostListSerializer
     pagination_class = PageNumberPagination
     filter_backends = [SearchFilter,OrderingFilter]
     search_fields = ['user__username',]
     ordering_fields = ['created',]
     permission_classes = [IsAuthenticated]
+
+
+    
     
 class PostCreateView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
+    def post(self, request, *args, **kwargs):
+
+        serializer = PostSerializer(data=request.data)
+        print(request.user)
+        valid = serializer.is_valid(raise_exception=True)
+        if valid:
+            serializer.save()
+            status_code = status.HTTP_201_CREATED
+            response = {
+                'success': True,
+                'statusCode': status_code,
+                'message': 'Post added successfully',
+                'user': serializer.data
+            }
+            return Response(response, status=status_code)
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
+            return Response(response, status=status_code)
+
     
+    '''
     def post(self, request, *args, **kwargs):
 
       post_serializer = PostSerializer(data=request.data)
+      print(post_serializer)
 
       if post_serializer.is_valid():
+          
+          
           post_serializer.save()
           return Response(post_serializer.data, status=status.HTTP_201_CREATED)
       else:
           return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    '''
+
       
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
