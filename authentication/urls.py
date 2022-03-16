@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
-from .views import RegisterApi, LogoutView,  ChangePasswordView, RequestPasswordResetEmail, PasswordTokenCheckAPI, SetNewPasswordAPIView, GoogleLogin, UserListView, UserDetailView, UserUpdateView, UserDeleteView, VerifyEmail
+from .views import RegisterApi, LogoutView,  ChangePasswordView, GoogleLogin, UserListView, UserDetailView, UserUpdateView, UserDeleteView, VerifyEmail,PasswordResetView,ResetPasswordTokenCheckView,NewPasswordView
 
 urlpatterns = [
     path('api/login/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -10,13 +10,9 @@ urlpatterns = [
     path('email-verify/', VerifyEmail.as_view(), name='verify_email'),
     path('api/logout/', LogoutView.as_view(), name='auth_logout'),
     path('api/change_password/<int:pk>/', ChangePasswordView.as_view(), name='auth_change_password'),
-    
-    path('request-reset-email/', RequestPasswordResetEmail.as_view(),
-         name="request-reset-email"),
-    path('password-reset/<uidb64>/<token>/',
-         PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
-    path('password-reset-complete', SetNewPasswordAPIView.as_view(),
-         name='password-reset-complete'),
+    path('password-reset/', PasswordResetView.as_view()),
+    path('password-reset/<uidb64>/<token>/', ResetPasswordTokenCheckView.as_view(),name = 'password_token_check'),
+    path('password-reset-complete/', NewPasswordView.as_view()),
     
     path('rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
     
