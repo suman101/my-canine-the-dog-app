@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer
+from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer,TrainingListSerializer
 from rest_framework import generics
 from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction
 from rest_framework.response import Response
@@ -219,7 +219,7 @@ class PetProfileDeleteView(generics.DestroyAPIView):
     
 class TrainingListView(generics.ListAPIView):
     queryset = Training.objects.all()
-    serializer_class = TrainingSerializer
+    serializer_class = TrainingListSerializer
     pagination_class = PageNumberPagination
     
 class TrainingCreateView(generics.CreateAPIView):

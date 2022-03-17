@@ -68,6 +68,10 @@ class PetProfile(models.Model):
     def save(self, *args, **kwargs):
         self.is_adult()
         super(PetProfile, self).save(*args, **kwargs)
+
+class Category(models.Model):
+        title = models.CharField(max_length=100)
+        image = models.ImageField(upload_to= 'category_upload/',null=True)
     
 class Training(models.Model):
     title = models.CharField(max_length=85)
@@ -75,6 +79,7 @@ class Training(models.Model):
     video = models.FileField(upload_to='videos_uploaded',null=True,blank=True,
             validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     image = models.ImageField(upload_to = 'images_uploaded/', null = True)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='category')
     
     def __str__(self):
         return self.title
