@@ -24,7 +24,7 @@ class Comment(models.Model):
         ordering = ('created',) 
         
     def __str__(self): 
-        return 'Comment by {} on {}'.format(self.post)  
+        return self.user.username  
     
 class Like(models.Model):
     postId = models.ForeignKey(Post, on_delete=models.CASCADE)

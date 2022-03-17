@@ -16,13 +16,10 @@ class PostSerializer(serializers.ModelSerializer):
         
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
     class Meta:
         model = Comment
         fields = ['comment','post','user']
 
-    def get_user(self, obj):
-        return obj.user.username
         
 class Likeserializer(serializers.ModelSerializer):
     class Meta:
