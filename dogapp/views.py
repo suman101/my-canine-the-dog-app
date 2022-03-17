@@ -7,6 +7,10 @@ from rest_framework import status
 from .paginations import PageNumberPagination
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
+from authentication.models import UserProfile
+from django.http import QueryDict
 
 
 # Create your views here.
@@ -84,6 +88,39 @@ class CommentListView(generics.ListAPIView):
 class CommentCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user = UserProfile.objects.get(user=self.request.user.id)
+            print(user)
+            user_id=user.id
+            data = {
+                'post':request.data['post'],
+                'user': user_id,                
+                'comment': request.data['comment'],                          
+
+            }
+            query_dict = QueryDict('', mutable=True)
+            query_dict.update(data)
+            serializer = CommentSerializer(data=query_dict)
+            valid = serializer.is_valid(raise_exception=True)
+            if valid:
+                serializer.save()
+                status_code = status.HTTP_201_CREATED
+                response = {
+                    'success': True,
+                    'statusCode': status_code,
+                    'message': 'comment added successfully',
+                    'user': serializer.data
+                }
+        
+                return Response(response, status=status_code)
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response(serializer.errors, status=status_code)
+        except ObjectDoesNotExist:
+            raise Http404("Cannot created, Please Login to add comment")
     
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()

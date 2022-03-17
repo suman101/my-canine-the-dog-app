@@ -15,7 +15,7 @@ class Post(models.Model):
         ordering = ('created',)
     
 class Comment(models.Model):
-    comment = models.CharField(max_length=254, blank=True, null=True)
+    comment = models.TextField(max_length=254, blank=True, null=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now_add=True)
