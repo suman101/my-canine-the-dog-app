@@ -27,7 +27,6 @@ from django.conf import settings
 
 # Create your views here.
 class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
 
