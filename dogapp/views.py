@@ -80,6 +80,17 @@ class PostDeleteView(generics.DestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
+
+class CreateReadCommentView (generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Comment.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(post=self.kwargs.get('post_id'))
     
 class CommentListView(generics.ListAPIView):
     queryset = Comment.objects.all()

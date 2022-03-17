@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import LikeCreateView, LikeDeleteView, MessageCreateView, MessageDeleteView, MessageDetailView, MessageListView, PetProfileCreateView, PetProfileDeleteView, PetProfileDetailView, PetProfileListView, PostListView,PostCreateView,PostDetailView,PostDeleteView, CommentListView,CommentCreateView,CommentDetailView, CommentDeleteView, TrainingCreateView, TrainingDeleteView, TrainingDetailView, TrainingListView, TransactionCreateView, TransactionDeleteView, TransactionDetailView, TransactionListView
+from .views import LikeCreateView, LikeDeleteView, MessageCreateView, MessageDeleteView, MessageDetailView, MessageListView, PetProfileCreateView, PetProfileDeleteView, PetProfileDetailView, PetProfileListView, PostListView,PostCreateView,PostDetailView,PostDeleteView, CommentListView,CommentCreateView,CommentDetailView, CommentDeleteView, TrainingCreateView, TrainingDeleteView, TrainingDetailView, TrainingListView, TransactionCreateView, TransactionDeleteView, TransactionDetailView, TransactionListView, CreateReadCommentView
 
 urlpatterns = [
     path('post-list/', PostListView.as_view()),
     path('post-create/', PostCreateView.as_view()),
     path('post-detail/<int:pk>/', PostDetailView.as_view()),
     path('post-delete/<int:pk>/', PostDeleteView.as_view()),
+    path('post/<int:post_id>/comments', CreateReadCommentView.as_view()),
     
     path('comment-list/', CommentListView.as_view()),
     path('comment-create/', CommentCreateView.as_view()),
