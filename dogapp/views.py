@@ -124,8 +124,9 @@ class CommentCreateView(generics.ListCreateAPIView):
             data = {
                 'post':request.data['post'],
                 'user': user_id,                
-                'comment': request.data['comment'],                          
-
+                'comment': request.data['comment'],
+                'username': request.data['user__username'],
+                                          
             }
             query_dict = QueryDict('', mutable=True)
             query_dict.update(data)
