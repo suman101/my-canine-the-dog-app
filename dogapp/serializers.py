@@ -7,12 +7,12 @@ class PostListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id','caption','image','user']
+        fields = ['id','caption','image','pet_name','user']
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['id','caption','image','user']
+        fields = ['id','caption','image','pet_name','user']
         
 
 class CommentSerializer(serializers.ModelSerializer):

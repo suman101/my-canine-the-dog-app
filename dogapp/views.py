@@ -81,7 +81,18 @@ class PostDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
-class CreateReadCommentView (generics.ListCreateAPIView):
+class PostListPersonal(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.kwargs.get('user_id'))
+
+
+
+
+class CreateReadCommentView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
     queryset = Comment.objects.all()
@@ -95,6 +106,10 @@ class CreateReadCommentView (generics.ListCreateAPIView):
 class CommentListView(generics.ListAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.kwargs.get('username'))
     
 class CommentCreateView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -222,6 +237,10 @@ class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
     lookup_field = 'pk'
+
+    
+
+
     
 class PetProfileDeleteView(generics.DestroyAPIView):
     queryset = PetProfile.objects.all()

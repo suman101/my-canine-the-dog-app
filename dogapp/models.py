@@ -9,6 +9,7 @@ class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_post',null=True,blank=True)
     caption = models.TextField()
     image = models.ImageField(upload_to = 'images/')
+    pet_name = models.CharField(max_length=50,blank=True,null=True)
     created = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -56,6 +57,7 @@ class PetProfile(models.Model):
     address = models.CharField(max_length=55)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/',null=True,blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
     pet_bio = models.TextField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     
