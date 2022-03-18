@@ -55,6 +55,8 @@ class PetProfile(models.Model):
     date_of_birth = models.DateField(default=None)
     address = models.CharField(max_length=55)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/',null=True,blank=True)
+    pet_bio = models.TextField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
