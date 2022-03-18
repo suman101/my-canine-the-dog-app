@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import LikeCreateView, LikeDeleteView, MessageCreateView, MessageDeleteView, MessageDetailView, MessageListView, PetProfileCreateView, PetProfileDeleteView, PetProfileDetailView, PetProfileListView, PostListView,PostCreateView,PostDetailView,PostDeleteView, CommentListView,CommentCreateView,CommentDetailView, CommentDeleteView, TrainingCreateView, TrainingDeleteView, TrainingDetailView, TrainingListView, TransactionCreateView, TransactionDeleteView, TransactionDetailView, TransactionListView, CreateReadCommentView, PostListPersonal,TrainingCategoryListView,TrainingCategoryCreateView, TrainingCategoryDetailView,TrainingCategoryDeleteView
+from .views import LikeCreateView, LikeDeleteView, MessageCreateView, MessageDeleteView, MessageDetailView, MessageListView, PetProfileCreateView, PetProfileDeleteView, PetProfileDetailView, PetProfileListView, PostListView,PostCreateView,PostDetailView,PostDeleteView, CommentListView,CommentCreateView,CommentDetailView, CommentDeleteView, TrainingCreateView, TrainingDeleteView, TrainingDetailView, TrainingListView, TransactionCreateView, TransactionDeleteView, TransactionDetailView, TransactionListView, CreateReadCommentView, PostListPersonal,TrainingCategoryListView,TrainingCategoryCreateView, TrainingCategoryDetailView,TrainingCategoryDeleteView,TrainingCategoryEachView
 
 urlpatterns = [
     path('post-list/', PostListView.as_view()),
@@ -31,6 +31,7 @@ urlpatterns = [
     path('training-create/', TrainingCreateView.as_view()),
     path('training-detail/<int:pk>/', TrainingDetailView.as_view()),
     path('training-delete/<int:pk>/', TrainingDeleteView.as_view()),
+    path('training-list/<int:category_id>/', TrainingCategoryEachView.as_view()),
 
     path('training-category-list/', TrainingCategoryListView.as_view()),
     path('training-category-create/', TrainingCategoryCreateView.as_view()),

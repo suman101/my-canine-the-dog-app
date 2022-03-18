@@ -125,7 +125,6 @@ class CommentCreateView(generics.ListCreateAPIView):
                 'post':request.data['post'],
                 'user': user_id,                
                 'comment': request.data['comment'],
-                'username': request.data['user__username'],
                                           
             }
             query_dict = QueryDict('', mutable=True)
@@ -248,6 +247,13 @@ class PetProfileDeleteView(generics.DestroyAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
     lookup_field = 'pk'
+
+class TrainingCategoryEachView(generics.ListAPIView):
+    queryset = Training.objects.all()
+    serializer_class = TrainingCategorySerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(category=self.kwargs.get('category_id'))
 
 class TrainingCategoryListView(generics.ListAPIView):
     queryset = TrainingCategory.objects.all()
