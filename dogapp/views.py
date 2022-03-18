@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer,TrainingListSerializer
+from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer,TrainingListSerializer,TrainingCategorySerializer
 from rest_framework import generics
-from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction
+from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction,TrainingCategory
 from rest_framework.response import Response
 from rest_framework import status
 from .paginations import PageNumberPagination
@@ -238,13 +238,31 @@ class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PetProfileSerializer
     lookup_field = 'pk'
 
-    
+
 
 
     
 class PetProfileDeleteView(generics.DestroyAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
+    lookup_field = 'pk'
+
+class TrainingCategoryListView(generics.ListAPIView):
+    queryset = TrainingCategory.objects.all()
+    serializer_class = TrainingCategorySerializer
+
+class TrainingCategoryCreateView(generics.ListAPIView):
+    queryset = TrainingCategory.objects.all()
+    serializer_class = TrainingCategorySerializer
+
+class TrainingCategoryDetailView(generics.ListAPIView):
+    queryset = TrainingCategory.objects.all()
+    serializer_class = TrainingCategorySerializer
+    lookup_field = 'pk'
+
+class TrainingCategoryDeleteView(generics.ListAPIView):
+    queryset = TrainingCategory.objects.all()
+    serializer_class = TrainingCategorySerializer
     lookup_field = 'pk'
     
 class TrainingListView(generics.ListAPIView):
