@@ -182,6 +182,7 @@ class UserDetailView(generics.RetrieveAPIView):
     serializer_class = UserProfileSerializer
     lookup_field = "pk"
 
+
 class UserUpdateView(generics.UpdateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer

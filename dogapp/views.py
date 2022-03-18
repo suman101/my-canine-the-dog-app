@@ -238,7 +238,8 @@ class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PetProfileSerializer
     lookup_field = 'pk'
 
-
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.kwargs.get('user_id'))
 
 
     
