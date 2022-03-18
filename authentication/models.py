@@ -29,16 +29,6 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
     
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
-
-        img=Image.open(self.profile_pic.path)
-
-        if img.height>400 or img.width>400:
-            output_size=(400,400)
-            img.thumbnail(output_size)
-            img.save(self.profile_pic.path)
-          
 
 
 class LoggedInUser(models.Model):

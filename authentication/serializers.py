@@ -172,4 +172,4 @@ class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = UserProfile
-        fields = ['id','user','contact', 'address', 'profile_pic','is_online']
+        fields = ['id','user','contact', 'address','is_online']
