@@ -26,6 +26,8 @@ class UserProfile(models.Model):
     contact = models.CharField(max_length=50,null=True,blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
     is_online = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=100,null=True,blank=True,default=None)
+    last_name = models.CharField(max_length=100,null=True,blank=True,default=None)
     
     
     def __str__(self):
