@@ -158,15 +158,15 @@ class CommentCreateView(generics.ListCreateAPIView):
     def post(self, request):
         try:
             user = UserProfile.objects.get(user=self.request.user.id)
-            print(user)
-            username = UserProfile.objects.get(user=self.request.user)
-            print(username)
+            
+            
             user_id=user.id
             data = {
                 'post':request.data['post'],
-                'username':username.user.username,
+                'user_name':request.data['user_name'],
                 'user': user_id,                
                 'comment': request.data['comment'],
+
                                           
             }
             print(data)
