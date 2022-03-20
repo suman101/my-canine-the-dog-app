@@ -38,9 +38,10 @@ class BreedSerializer(serializers.ModelSerializer):
         fields = ['title','description','image']
         
 class PetProfileSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = PetProfile
-        fields = ['id','name','address','breed','date_of_birth']
+        fields = ['id','user','name','address','breed','date_of_birth']
 
 class TrainingCategorySerializer(serializers.ModelSerializer):
     class Meta:
