@@ -8,6 +8,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
+from dogapp.models import PetProfile
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     '''
@@ -177,6 +178,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['id','user','contact', 'address','is_online','pet_user']
 
     def get_pet_user(self,obj):
-        print(obj)
-        return obj
+        pet_user=PetProfile.objects.filter(user=obj.id)
         
+        return pet_user
