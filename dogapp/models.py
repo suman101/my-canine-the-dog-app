@@ -76,6 +76,10 @@ class PetProfile(models.Model):
 class TrainingCategory(models.Model):
         title = models.CharField(max_length=100)
         image = models.ImageField(upload_to= 'category_upload/',null=True)
+        days = models.IntegerField(null=True,blank=True)
+
+        def __str__(self):
+            return self.title
     
 class Training(models.Model):
     title = models.CharField(max_length=85)

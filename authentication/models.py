@@ -14,8 +14,9 @@ class User(AbstractUser):
     email = models.EmailField(unique=True,max_length=254)    
     phone_number = models.CharField(max_length=15,blank=True, null=True)
     is_email_verified = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=30,blank=True,null=True)
-    last_name = models.CharField(max_length=30,blank=True,null=True)
+    username = models.CharField(max_length=255,unique=True)
+    first_name = models.CharField(max_length=100,null=True,blank=True,default=None)
+    last_name = models.CharField(max_length=100,null=True,blank=True,default=None)
 
     def __str__(self):
         return self.username
