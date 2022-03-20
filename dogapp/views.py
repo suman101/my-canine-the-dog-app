@@ -374,6 +374,8 @@ class TransactionDeleteView(generics.DestroyAPIView):
     serializer_class = TransactionSerializer
     lookup_field = 'pk'
     
+
+    
     
     
     
