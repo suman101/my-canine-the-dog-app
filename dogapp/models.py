@@ -1,8 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-#from django.contrib.auth import get_user_model
-#User = get_user_model()
-from authentication.models import User, UserProfile
+from pytz import timezone
+from authentication.models import User
 # Create your models here.
 
 class Post(models.Model):
@@ -14,6 +13,8 @@ class Post(models.Model):
     
     class Meta:
         ordering = ('created',)
+    def __str__(self): 
+        return self.user.username 
     
 class Comment(models.Model):
     comment = models.TextField(max_length=254, blank=True, null=True)
@@ -55,6 +56,7 @@ class Breed(models.Model):
 class PetProfile(models.Model):
     name = models.CharField(max_length=45)
     date_of_birth = models.DateField(default=None)
+    adult = models.BooleanField(default=False)
     address = models.CharField(max_length=55)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/',null=True,blank=True)
@@ -62,8 +64,13 @@ class PetProfile(models.Model):
     pet_bio = models.TextField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     
+    
+    
+
     def __str__(self):
         return self.name
+
+
     
     def is_adult(self):
         import datetime

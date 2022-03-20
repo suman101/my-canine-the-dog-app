@@ -1,3 +1,5 @@
+from datetime import datetime as dt
+from sqlite3 import Date
 from rest_framework import serializers
 from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, Transaction
 
@@ -38,10 +40,22 @@ class BreedSerializer(serializers.ModelSerializer):
         fields = ['title','description','image']
         
 class PetProfileSerializer(serializers.ModelSerializer):
+    age = serializers.SerializerMethodField()
+    
     
     class Meta:
         model = PetProfile
-        fields = ['id','user','name','address','breed','date_of_birth']
+        fields = ['id','user','name','address','breed','date_of_birth','adult','age']
+
+    def get_age(self,obj):
+        d= dt.now().year-obj.date_of_birth.year
+        if d<1:
+            m=dt.now().month-obj.date_of_birth.month
+            return str(m)+" months"
+
+        return d
+
+    
 
 class TrainingCategorySerializer(serializers.ModelSerializer):
     class Meta:
