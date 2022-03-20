@@ -178,6 +178,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = ['id','user','contact', 'address','is_online','pet_user']
 
     def get_pet_user(self,obj):
-        pet_user=PetProfile.objects.filter(user=obj.id)
+        pet_user=PetProfile.objects.filter(user=obj.id).values()
         
         return pet_user
