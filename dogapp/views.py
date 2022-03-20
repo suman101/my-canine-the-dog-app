@@ -158,8 +158,7 @@ class CommentCreateView(generics.ListCreateAPIView):
     def post(self, request):
         try:
             user = UserProfile.objects.get(user=self.request.user.id)
-            
-            
+                
             user_id=user.id
             data = {
                 'post':request.data['post'],

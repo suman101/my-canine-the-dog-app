@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import FileExtensionValidator
 #from django.contrib.auth import get_user_model
 #User = get_user_model()
-from authentication.models import User
+from authentication.models import User, UserProfile
 # Create your models here.
 
 class Post(models.Model):
