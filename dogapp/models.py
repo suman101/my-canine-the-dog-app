@@ -57,7 +57,7 @@ class PetProfile(models.Model):
     address = models.CharField(max_length=55)
     breed = models.ForeignKey(Breed, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/',null=True,blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=None,related_name='pet_user')
     pet_bio = models.TextField(null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     

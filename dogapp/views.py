@@ -31,6 +31,7 @@ class PostCreateView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
+    '''
     def post(self, request, *args, **kwargs):
 
         serializer = PostSerializer(data=request.data)
@@ -50,7 +51,7 @@ class PostCreateView(generics.ListCreateAPIView):
             response = serializer.errors
             status_code = status.HTTP_400_BAD_REQUEST
             return Response(response, status=status_code)
-
+   '''
     
     '''
     def post(self, request, *args, **kwargs):
@@ -67,6 +68,44 @@ class PostCreateView(generics.ListCreateAPIView):
           return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     '''
+
+    def post(self, request):
+        try:
+            user = UserProfile.objects.get(user=self.request.user.id)
+            print(user)
+            username = UserProfile.objects.get(user=self.request.user)
+            print(username)
+            user_id=user.id
+            data = {
+                #'post':request.data['post'],
+                'username':username.user.username,
+                'user_id': user_id,                
+                'caption': request.data['caption'],
+                'pet_name': request.data['pet_name'],
+                'image': request.data['image'],
+                                          
+            }
+            print(data)
+            query_dict = QueryDict('', mutable=True)
+            query_dict.update(data)
+            serializer = PostSerializer(data=query_dict)
+            valid = serializer.is_valid(raise_exception=True)
+            if valid:
+                serializer.save()
+                status_code = status.HTTP_201_CREATED
+                response = {
+                    'success': True,
+                    'statusCode': status_code,
+                    'message': 'post added successfully',
+                    'user': serializer.data
+                }
+        
+                return Response(response, status=status_code)
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response(serializer.errors, status=status_code)
+        except ObjectDoesNotExist:
+            raise Http404("Cannot created, Please Login to add post")
 
       
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -120,13 +159,17 @@ class CommentCreateView(generics.ListCreateAPIView):
         try:
             user = UserProfile.objects.get(user=self.request.user.id)
             print(user)
+            username = UserProfile.objects.get(user=self.request.user)
+            print(username)
             user_id=user.id
             data = {
                 'post':request.data['post'],
+                'username':username.user.username,
                 'user': user_id,                
                 'comment': request.data['comment'],
                                           
             }
+            print(data)
             query_dict = QueryDict('', mutable=True)
             query_dict.update(data)
             serializer = CommentSerializer(data=query_dict)

@@ -97,6 +97,7 @@ class EmailVerificationSerializers(serializers.ModelSerializer):
         fields = ['tokens']
     
 class UserSerializer(serializers.ModelSerializer):
+    
 
     class Meta:
         model = User
@@ -170,6 +171,12 @@ class NewPasswordSerializers(serializers.Serializer):
     
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    pet_user = serializers.SerializerMethodField()
     class Meta:
         model = UserProfile
-        fields = ['id','user','contact', 'address','is_online']
+        fields = ['id','user','contact', 'address','is_online','pet_user']
+
+    def get_pet_user(self,obj):
+        print(obj)
+        return obj
+        
