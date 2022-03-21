@@ -287,7 +287,7 @@ class PetProfileCreateView(generics.CreateAPIView):
             response = {
                 'success': True,
                 'statusCode': status_code,
-                'message': 'Post added successfully',
+                'message': 'Petprofile added successfully',
                 'user': serializer.data
             }
             return Response(response, status=status_code)
