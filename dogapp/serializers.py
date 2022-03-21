@@ -45,7 +45,7 @@ class PetProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PetProfile
-        fields = ['id','user','name','address','breed','date_of_birth','adult','age']
+        fields = ['id','user','name','image','address','breed','date_of_birth','adult','age']
 
     def get_age(self,obj):
         d= dt.now().year-obj.date_of_birth.year

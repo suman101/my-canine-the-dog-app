@@ -276,40 +276,7 @@ class PetProfileCreateView(generics.CreateAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
 
-    def post(self, request):
-        try:
-            user = UserProfile.objects.get(user=self.request.user.id)
-                
-            user_id=user.id
-            data = {
-                'name': request.data['name'],
-                'user': user_id,                
-                'pet_bio': request.data['pet_bio'],
-                'image': request.data['image']
-
-                                          
-            }
-            print(data)
-            query_dict = QueryDict('', mutable=True)
-            query_dict.update(data)
-            serializer = CommentSerializer(data=query_dict)
-            valid = serializer.is_valid(raise_exception=True)
-            if valid:
-                serializer.save()
-                status_code = status.HTTP_201_CREATED
-                response = {
-                    'success': True,
-                    'statusCode': status_code,
-                    'message': 'petprofile added successfully',
-                    'user': serializer.data
-                }
-        
-                return Response(response, status=status_code)
-            else:
-                status_code = status.HTTP_400_BAD_REQUEST
-                return Response(serializer.errors, status=status_code)
-        except ObjectDoesNotExist:
-            raise Http404("Cannot created, Please Login to add comment")
+    
     
 class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PetProfile.objects.all()
