@@ -282,7 +282,7 @@ class PetProfileCreateView(generics.CreateAPIView):
                 
             user_id=user.id
             data = {
-                
+                'name': request.data['name'],
                 'user': user_id,                
                 'pet_bio': request.data['pet_bio'],
                 'image': request.data['image']
