@@ -276,6 +276,26 @@ class PetProfileCreateView(generics.CreateAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
 
+    def post(self, request, *args, **kwargs):
+
+        serializer = PetProfileSerializer(data=request.data)
+        print(request.user)
+        valid = serializer.is_valid(raise_exception=True)
+        if valid:
+            serializer.save()
+            status_code = status.HTTP_201_CREATED
+            response = {
+                'success': True,
+                'statusCode': status_code,
+                'message': 'Post added successfully',
+                'user': serializer.data
+            }
+            return Response(response, status=status_code)
+        else:
+            response = serializer.errors
+            status_code = status.HTTP_400_BAD_REQUEST
+            return Response(response, status=status_code)
+
     
     
 class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
