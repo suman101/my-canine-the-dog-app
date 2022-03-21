@@ -11,7 +11,7 @@ from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from authentication.models import UserProfile
 from django.http import QueryDict
-import io, csv, pandas as pd
+
 
 
 # Create your views here.
