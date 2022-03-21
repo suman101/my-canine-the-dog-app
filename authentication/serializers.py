@@ -173,6 +173,7 @@ class NewPasswordSerializers(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     pet_user = serializers.SerializerMethodField()
+
     class Meta:
         model = UserProfile
         fields = ['id','user','contact', 'address','is_online','pet_user']

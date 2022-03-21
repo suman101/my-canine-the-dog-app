@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_swagger',
     'sitesettings',
+    'import_export',
 ]
 
 MIDDLEWARE = [

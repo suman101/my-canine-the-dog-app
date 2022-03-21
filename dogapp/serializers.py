@@ -77,6 +77,14 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = ['price','description','image','address','userId','phone_number']
+
+
+        ############### csv file #######################
+
+class BreedUploadSerializer(serializers.Serializer):
+    file = serializers.FileField()
+
+
         
 
 

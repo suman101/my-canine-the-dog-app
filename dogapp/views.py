@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer,TrainingListSerializer,TrainingCategorySerializer
+from .serializers import BreedSerializer, Likeserializer, MessageSerializer, PetProfileSerializer, PostSerializer, CommentSerializer, TrainingSerializer, TransactionSerializer,PostListSerializer,TrainingListSerializer,TrainingCategorySerializer,BreedUploadSerializer
 from rest_framework import generics
 from .models import PetProfile, Post, Comment, Like, Message, Breed, Training, Transaction,TrainingCategory
 from rest_framework.response import Response
@@ -11,6 +11,7 @@ from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from authentication.models import UserProfile
 from django.http import QueryDict
+import io, csv, pandas as pd
 
 
 # Create your views here.
@@ -274,6 +275,41 @@ class PetProfileListView(generics.ListAPIView):
 class PetProfileCreateView(generics.CreateAPIView):
     queryset = PetProfile.objects.all()
     serializer_class = PetProfileSerializer
+
+    def post(self, request):
+        try:
+            user = UserProfile.objects.get(user=self.request.user.id)
+                
+            user_id=user.id
+            data = {
+                
+                'user': user_id,                
+                'pet_bio': request.data['pet_bio'],
+                'image': request.data['image']
+
+                                          
+            }
+            print(data)
+            query_dict = QueryDict('', mutable=True)
+            query_dict.update(data)
+            serializer = CommentSerializer(data=query_dict)
+            valid = serializer.is_valid(raise_exception=True)
+            if valid:
+                serializer.save()
+                status_code = status.HTTP_201_CREATED
+                response = {
+                    'success': True,
+                    'statusCode': status_code,
+                    'message': 'petprofile added successfully',
+                    'user': serializer.data
+                }
+        
+                return Response(response, status=status_code)
+            else:
+                status_code = status.HTTP_400_BAD_REQUEST
+                return Response(serializer.errors, status=status_code)
+        except ObjectDoesNotExist:
+            raise Http404("Cannot created, Please Login to add comment")
     
 class PetProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = PetProfile.objects.all()
@@ -373,6 +409,27 @@ class TransactionDeleteView(generics.DestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     lookup_field = 'pk'
+
+
+
+
+class UploadFileView(generics.CreateAPIView):
+    serializer_class = BreedUploadSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        file = serializer.validated_data['file']
+        reader = pd.read_csv(file)
+        for _, row in reader.iterrows():
+            new_file = Breed(
+                       id = row['id'],
+                       title=row['Title'],
+                       description=row['Description'],
+                       )
+            new_file.save()
+        return Response({"status": "success"},
+                        status.HTTP_201_CREATED)
     
 
     
