@@ -105,7 +105,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'username',
-            'email'
+            'email',
+            'first_name',
+            'last_name',
         )
     
 class ChangePasswordSerializer(serializers.ModelSerializer):

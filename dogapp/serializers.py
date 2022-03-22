@@ -2,7 +2,7 @@ from datetime import datetime as dt
 from sqlite3 import Date
 from rest_framework import serializers
 from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, Transaction
-
+from authentication.serializers import UserSerializer
 
 class PostListSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
@@ -15,6 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
+        depth=1
         
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -64,14 +65,18 @@ class TrainingCategorySerializer(serializers.ModelSerializer):
 
 
 class TrainingListSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
     class Meta:
         model = Training
-        fields = ['id','title','image']
+        fields = ['id','title','image','user']
         
 class TrainingSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    breed_user = serializers.SerializerMethodField()
     class Meta:
         model = Training
-        fields = ['id','title','description','image','video']
+        fields = ['id','title','description','image','video','user','breed_user']
         
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:

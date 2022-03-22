@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-from pytz import timezone
 from authentication.models import User
 # Create your models here.
 
@@ -49,6 +48,7 @@ class Breed(models.Model):
     title = models.CharField(max_length=55)
     description = models.TextField()
     image = models.ImageField(upload_to = 'images/',null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='breed_user',default=None)
     
     def __str__(self):
         return self.title
@@ -94,6 +94,7 @@ class Training(models.Model):
             validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     image = models.ImageField(upload_to = 'images_uploaded/', null = True)
     category = models.ForeignKey(TrainingCategory,on_delete=models.CASCADE,related_name='category')
+    user = models.ForeignKey(User,on_delete=models.CASCADE,default=None)
     
     def __str__(self):
         return self.title
