@@ -342,6 +342,10 @@ class TrainingListView(generics.ListAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingListSerializer
     pagination_class = PageNumberPagination
+
+    
+    
+
     
 class TrainingCreateView(generics.CreateAPIView):
     queryset = Training.objects.all()

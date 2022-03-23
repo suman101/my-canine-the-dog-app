@@ -69,7 +69,6 @@ class PetProfile(models.Model):
         return self.name
 
 
-    
     def is_adult(self):
         import datetime
         if (datetime.date.today() - self.date_of_birth) > datetime.timedelta(days=18*365):
@@ -78,6 +77,8 @@ class PetProfile(models.Model):
     def save(self, *args, **kwargs):
         self.is_adult()
         super(PetProfile, self).save(*args, **kwargs)
+
+     
 
 class TrainingCategory(models.Model):
         title = models.CharField(max_length=100)
@@ -95,9 +96,14 @@ class Training(models.Model):
     image = models.ImageField(upload_to = 'images_uploaded/', null = True)
     category = models.ForeignKey(TrainingCategory,on_delete=models.CASCADE,related_name='category')
     user = models.ForeignKey(User,on_delete=models.CASCADE,default=None)
+    breed = models.ManyToManyField(Breed)
+    age_limit = models.CharField(max_length=2,null=True,blank=True)
     
     def __str__(self):
         return self.title
+
+    
+        
     
 class Transaction(models.Model):
     price= models.DecimalField(max_digits=10, decimal_places=2)

@@ -5,17 +5,18 @@ from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, T
 from authentication.serializers import UserSerializer
 
 class PostListSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
 
 class PostSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
-        depth=1
+        
         
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -38,7 +39,7 @@ class MessageSerializer(serializers.ModelSerializer):
 class BreedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Breed
-        fields = ['title','description','image']
+        fields = ['id','title','description','image']
         
 class PetProfileSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
@@ -66,17 +67,25 @@ class TrainingCategorySerializer(serializers.ModelSerializer):
 
 class TrainingListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    breed = BreedSerializer
     
+
     class Meta:
         model = Training
-        fields = ['id','title','image','user']
+        fields = ['id','title','image','user','breed','age_limit']
+
+    def get_breed(self,obj):
+        breed = Training.objects.filter(breed=obj.id)
+        return breed
+
         
 class TrainingSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    breed_user = serializers.SerializerMethodField()
+    
     class Meta:
         model = Training
-        fields = ['id','title','description','image','video','user','breed_user']
+        fields = ['id','title','description','image','video','user']
+
         
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
