@@ -68,7 +68,6 @@ class TrainingCategorySerializer(serializers.ModelSerializer):
 class TrainingListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     breed = BreedSerializer
-    
 
     class Meta:
         model = Training
@@ -81,6 +80,7 @@ class TrainingListSerializer(serializers.ModelSerializer):
         
 class TrainingSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+
     
     class Meta:
         model = Training

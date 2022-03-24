@@ -11,6 +11,8 @@ from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 from authentication.models import UserProfile
 from django.http import QueryDict
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -342,9 +344,9 @@ class TrainingListView(generics.ListAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingListSerializer
     pagination_class = PageNumberPagination
-
-    
-    
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
+    filterset_fields = ['title']
+    search_fields = ['title']
 
     
 class TrainingCreateView(generics.CreateAPIView):
@@ -365,6 +367,8 @@ class TrainingDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingSerializer
     lookup_field = 'pk'
+    
+
     
 class TrainingDeleteView(generics.DestroyAPIView):
     queryset = Training.objects.all()
