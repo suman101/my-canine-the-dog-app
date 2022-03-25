@@ -25,6 +25,8 @@ from .serializers import MyTokenObtainPairSerializer
 from .models import User
 from django.conf import settings
 
+
+
 # Create your views here.
 class MyObtainTokenPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -168,10 +170,6 @@ class NewPasswordView(generics.GenericAPIView):
         return Response({'success':True, 'message':'Password Reset completed'}, status= status.HTTP_200_OK)
 
     
-class GoogleLogin(SocialLoginView):
-    adapter_class = GoogleOAuth2Adapter
-
-
 class UserListView(generics.ListAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
@@ -194,3 +192,6 @@ class UserDeleteView(generics.DestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     lookup_field = "pk"
+
+
+

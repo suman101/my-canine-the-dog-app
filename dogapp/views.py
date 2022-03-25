@@ -21,7 +21,8 @@ class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
     pagination_class = PageNumberPagination
-    filter_backends = [SearchFilter,OrderingFilter]
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_fields = ['user__username','pet_name']
     search_fields = ['user__username',]
     ordering_fields = ['created',]
     permission_classes = [IsAuthenticated]
@@ -344,9 +345,11 @@ class TrainingListView(generics.ListAPIView):
     queryset = Training.objects.all()
     serializer_class = TrainingListSerializer
     pagination_class = PageNumberPagination
-    filter_backends = [DjangoFilterBackend,filters.SearchFilter]
-    filterset_fields = ['title']
+    filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_fields = ['title','breed__title']
     search_fields = ['title']
+    ordering_fields = ['age_limit']
+    
 
     
 class TrainingCreateView(generics.CreateAPIView):

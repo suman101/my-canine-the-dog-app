@@ -10,6 +10,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from dogapp.models import PetProfile
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     '''
     @classmethod
@@ -184,3 +185,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         pet_user=PetProfile.objects.filter(user=obj.id).values()
         
         return pet_user
+
+
+
+
