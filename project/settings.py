@@ -100,7 +100,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-SITE_ID= 2
+SITE_ID= 1
 
 LOGIN_REDIRECT_URL = '/'
 
