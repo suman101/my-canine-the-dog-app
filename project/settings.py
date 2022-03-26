@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -100,7 +101,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-SITE_ID= 1
+SITE_ID= 2
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -113,6 +114,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+production_db=dj_database_url.config(conn_max_age=300)
+DATABASES['default'].update(production_db)
+
 
 
 
