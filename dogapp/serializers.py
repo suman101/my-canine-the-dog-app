@@ -13,6 +13,7 @@ class PostListSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
