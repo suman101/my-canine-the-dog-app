@@ -126,8 +126,8 @@ DATABASES = {
 #             'PORT':     '5432',
 #         }
 #     }
-#     production_db=dj_database_url.config(conn_max_age=300)
-#     DATABASES['default'].update(production_db)
+production_db=dj_database_url.config(conn_max_age=300)
+DATABASES['default'].update(production_db)
 
 
 
