@@ -108,26 +108,26 @@ LOGIN_REDIRECT_URL = '/'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-if DEBUG == True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+#if DEBUG == True:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    DATABASES = {
-        'default': {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            'NAME':     'ddt2g671rmni0d',
-            'USER':     'vkwsadcvsofesf',
-            'PASSWORD': '    c69c89598940a26e549879cdfbad5d694358a981ea24d6a1dde79fecead078ea',
-            'HOST':     'ec2-54-208-139-247.compute-1.amazonaws.com',
-            'PORT':     '5432',
-        }
-    }
-    production_db=dj_database_url.config(conn_max_age=300)
-    DATABASES['default'].update(production_db)
+}
+# else:
+#     DATABASES = {
+#         'default': {
+#             "ENGINE": "django.db.backends.postgresql_psycopg2",
+#             'NAME':     'ddt2g671rmni0d',
+#             'USER':     'vkwsadcvsofesf',
+#             'PASSWORD': '    c69c89598940a26e549879cdfbad5d694358a981ea24d6a1dde79fecead078ea',
+#             'HOST':     'ec2-54-208-139-247.compute-1.amazonaws.com',
+#             'PORT':     '5432',
+#         }
+#     }
+#     production_db=dj_database_url.config(conn_max_age=300)
+#     DATABASES['default'].update(production_db)
 
 
 
