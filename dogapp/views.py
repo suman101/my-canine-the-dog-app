@@ -360,7 +360,7 @@ class TrainingListView(generics.ListAPIView):
     serializer_class = TrainingListSerializer
     pagination_class = PageNumberPagination
     filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
-    filterset_fields = ['title','breed__title']
+    filterset_fields = ['title','breed__title','age_limit']
     search_fields = ['title']
     ordering_fields = ['age_limit']
     
