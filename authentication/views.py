@@ -20,33 +20,25 @@ import jwt
 from django.http import HttpResponsePermanentRedirect
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
-from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
 from .models import User
 from django.conf import settings
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 # Create your views here.
+
 class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
+
+
 
 
 class RegisterApi(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     permission_classes = (AllowAny, )
 
-    '''
-    def post(self,request,*args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({
-            "user": serializer.data,
-            "message": "User Created Successfully. Now Perform Login to get your token",
-        })
-
-    '''
 
     def post(self, request):
         user = request.data
