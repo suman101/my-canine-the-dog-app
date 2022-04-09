@@ -6,13 +6,15 @@ from authentication.serializers import UserSerializer
 
 class PostListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-
+   
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
 
 class PostSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+
+   
     
     class Meta:
         model = Post

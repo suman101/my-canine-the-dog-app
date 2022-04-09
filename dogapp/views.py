@@ -27,6 +27,7 @@ class PostListView(generics.ListAPIView):
     ordering_fields = ['created',]
     permission_classes = [IsAuthenticated]
 
+    
 
     
     
@@ -35,15 +36,15 @@ class PostCreateView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
+    # def post(self, request, *args, **kwargs):
 
-      post_serializer = PostSerializer(data=request.data)
+    #   post_serializer = PostSerializer(data=request.data)
 
-      if post_serializer.is_valid():
-          post_serializer.save()
-          return Response(post_serializer.data, status=status.HTTP_201_CREATED)
-      else:
-          return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #   if post_serializer.is_valid():
+    #       post_serializer.save()
+    #       return Response(post_serializer.data, status=status.HTTP_201_CREATED)
+    #   else:
+    #       return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
 
@@ -86,13 +87,13 @@ class PostCreateView(generics.ListCreateAPIView):
           return Response(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     '''
-'''
+
     def post(self, request):
         try:
             user = UserProfile.objects.get(user=self.request.user.id)
             print(user)
-            #username = UserProfile.objects.get(user=self.request.user)
-            #print(username)
+            username = UserProfile.objects.get(user=self.request.user)
+            print(username)
             user_id=user.id
             data = {
                 #'post':request.data['post'],
@@ -124,7 +125,7 @@ class PostCreateView(generics.ListCreateAPIView):
                 return Response(serializer.errors, status=status_code)
         except ObjectDoesNotExist:
             raise Http404("Cannot created, Please Login to add post")
-'''
+
       
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
