@@ -20,9 +20,9 @@ import jwt
 from django.http import HttpResponsePermanentRedirect
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
-from .serializers import MyTokenObtainPairSerializer
 from .models import User
 from django.conf import settings
+from .serializers import MyTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
