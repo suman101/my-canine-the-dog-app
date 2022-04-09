@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import dj_database_url
+from decouple import config
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'a5=++0^fp$rb3)te@2z_wbn936(3l=o&i(jtqw*cc2wfq3zax0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['localhost','127.0.0.1','my-canine.herokuapp.com']
 
