@@ -10,16 +10,41 @@ from django.contrib.auth import authenticate
 from dogapp.models import PetProfile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+class CustomJWTSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        credentials = {
+            'username': '',
+            'password': attrs.get("password")
+        }
+
+        # This is answering the original question, but do whatever you need here. 
+        # For example in my case I had to check a different model that stores more user info
+        # But in the end, you should obtain the username to continue.
+        user_obj = User.objects.filter(email=attrs.get("username")).first() or User.objects.filter(username=attrs.get("username")).first()
+        if user_obj:
+            credentials['username'] = user_obj.username
+
+        return super().validate(credentials)
 
     @classmethod
     def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+        token = super(CustomJWTSerializer, cls).get_token(user)
 
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
         return token
+
+# class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+
+#         # Add custom claims
+#         token['username'] = user.username
+#         token['email'] = user.email
+#         return token
 
 
 
@@ -56,8 +81,6 @@ class EmailVerificationSerializers(serializers.ModelSerializer):
         fields = ['tokens']
     
 class UserSerializer(serializers.ModelSerializer):
-    
-
     class Meta:
         model = User
         fields = (

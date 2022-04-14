@@ -4,7 +4,7 @@ from authentication.models import User
 # Create your models here.
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_post',null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,default=None)
     caption = models.TextField()
     image = models.ImageField(upload_to = 'images/')
     pet_name = models.CharField(max_length=50,blank=True,null=True)
@@ -14,7 +14,7 @@ class Post(models.Model):
         ordering = ('created',)
 
     def __str__(self): 
-        return self.pet_name
+        return self.user.username
     
 class Comment(models.Model):
     comment = models.TextField(max_length=254, blank=True, null=True)

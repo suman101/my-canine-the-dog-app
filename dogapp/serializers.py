@@ -3,24 +3,23 @@ from sqlite3 import Date
 from rest_framework import serializers
 from .models import Breed, Like, Message, PetProfile, Post, Comment, Training, Transaction
 from authentication.serializers import UserSerializer
+from authentication.models import User
 
 class PostListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-   
+
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
+    
 
 class PostSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
-   
     
+
     class Meta:
         model = Post
         fields = ['id','caption','image','pet_name','user']
-        
-        
+
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,7 +41,7 @@ class MessageSerializer(serializers.ModelSerializer):
 class BreedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Breed
-        fields = ['id','title','description','image']
+        fields = ['id','title','description','image','user']
         
 class PetProfileSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
@@ -71,23 +70,24 @@ class TrainingCategorySerializer(serializers.ModelSerializer):
 class TrainingListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     breed = BreedSerializer
+    category = TrainingCategorySerializer(read_only=True)
 
     class Meta:
         model = Training
-        fields = ['id','title','image','user','breed','age_limit']
+        fields = ['id','title','image','user','breed','age_limit','category']
 
-    def get_breed(self,obj):
-        breed = Training.objects.filter(breed=obj.id)
-        return breed
+    # def get_breed(self,obj):
+    #     breed = Training.objects.filter(breed=obj.id)
+    #     return breed
+    
 
         
 class TrainingSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-
+    
     
     class Meta:
         model = Training
-        fields = ['id','title','description','image','video','user']
+        fields = ['id','title','description','image','video','category','breed','age_limit','user']
 
         
 class TransactionSerializer(serializers.ModelSerializer):

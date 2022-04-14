@@ -22,15 +22,17 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 from .models import User
 from django.conf import settings
-from .serializers import MyTokenObtainPairSerializer
+from .serializers import CustomJWTSerializer#MyTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 # Create your views here.
 
+
+
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-    serializer_class = MyTokenObtainPairSerializer
+    serializer_class = CustomJWTSerializer #MyTokenObtainPairSerializer
 
 
 
