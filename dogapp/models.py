@@ -14,7 +14,7 @@ class Post(models.Model):
         ordering = ('created',)
 
     def __str__(self): 
-        return self.user
+        return self.pet_name
     
 class Comment(models.Model):
     comment = models.TextField(max_length=254, blank=True, null=True)
