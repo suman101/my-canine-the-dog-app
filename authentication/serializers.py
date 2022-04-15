@@ -9,6 +9,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
 from dogapp.models import PetProfile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from datetime import datetime as dt
+
 
 class CustomJWTSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -156,15 +158,24 @@ class NewPasswordSerializers(serializers.Serializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     pet_user = serializers.SerializerMethodField()
+    age = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
-        fields = ['id','user','contact', 'address','is_online','pet_user']
+        fields = ['id','user','contact', 'address','is_online','pet_user','age']
 
     def get_pet_user(self,obj):
         pet_user=PetProfile.objects.filter(user=obj.id).values()
         
         return pet_user
+
+    def get_age(self,obj):
+        d= dt.now().year-obj.date_of_birth.year
+        if d<1:
+            m=dt.now().month-obj.date_of_birth.month
+            return str(m)+" months"
+
+        return d
 
 
 
