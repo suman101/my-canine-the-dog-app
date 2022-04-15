@@ -34,6 +34,14 @@ class PostCreateView(generics.CreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
 
+    def post(self, request, **kwargs):
+        serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     # def post(self, request, *args, **kwargs):
 
     #   post_serializer = PostSerializer(data=request.data)
