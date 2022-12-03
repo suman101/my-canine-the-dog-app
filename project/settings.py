@@ -113,17 +113,11 @@ LOGIN_REDIRECT_URL = '/'
 
 
 DATABASES = {
-    'default': {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        'NAME':     'ddt2g671rmni0d',
-        'USER':     'vkwsadcvsofesf',
-        'PASSWORD': 'c69c89598940a26e549879cdfbad5d694358a981ea24d6a1dde79fecead078ea',
-        'HOST':     'ec2-54-208-139-247.compute-1.amazonaws.com',
-        'PORT':     '5432',
-    }
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
 }
-production_db=dj_database_url.config(conn_max_age=300)
-DATABASES['default'].update(production_db)
 
 
 
@@ -214,12 +208,4 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
-
-
-
-## client id
-#785965256965-cjbfd6eft4lslbmk2ddu08huoj29npa0.apps.googleusercontent.com
-
-##client secret
-#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
 
